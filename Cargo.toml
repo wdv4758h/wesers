@@ -4,3 +4,8 @@ version = "0.1.0"
 authors = ["Chiu-Hsiang Hsu <wdv4758h@gmail.com>"]
 
 [dependencies]
+clap = { version = "2.9.1", features = ["yaml"] }
+iron = "0.3"
+mount = "0.1"
+staticfile = "0.2.0"
+logger = "0.0.3"

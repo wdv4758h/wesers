@@ -1,0 +1,16 @@
+name: wesers
+version: 0.1.0
+about: a simple HTTP server in Rust
+author: Chiu-Hsiang Hsu <wdv4758h@gmail.com>
+
+args:
+    - ip:
+        help: binding IP
+        long: ip
+        takes_value: true
+        default_value: "127.0.0.1"
+    - port:
+        help: binding port
+        long: port
+        takes_value: true
+        default_value: "8000"
