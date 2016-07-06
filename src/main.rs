@@ -1,5 +1,7 @@
 #[macro_use]
 extern crate clap;
+#[macro_use]
+extern crate lazy_static;
 
 extern crate iron;
 extern crate staticfile;
@@ -79,10 +81,15 @@ impl Handler for Wesers {
 
         } else {
 
-			// TODO: lazy_static
-            let mut mount = Mount::new();
-            mount.mount("/", Static::new(Path::new(".")));
-            response = mount.handle(req).unwrap();
+            lazy_static! {
+                static ref MOUNT: Mount = {
+                    let mut m = Mount::new();
+                    m.mount("/", Static::new(Path::new(".")));
+                    m
+                };
+            }
+
+            response = MOUNT.handle(req).unwrap();
 
         }
 
