@@ -6,13 +6,89 @@ extern crate staticfile;
 extern crate mount;
 extern crate logger;
 
+use std::fs;
 use std::path::Path;
 
 use clap::App;              // CLI arguments
 use iron::prelude::*;
+use iron::{Handler, status};
+use iron::headers::ContentType;
 use staticfile::Static;     // middleware
 use mount::Mount;           // middleware
 use logger::Logger;         // middleware
+
+
+fn visit_dirs(dir: &Path) -> Option<String> {
+
+    let mut html = "".to_string();
+
+    for entry in fs::read_dir(dir).unwrap() {
+        let entry = entry.unwrap();
+        let url = entry.path()
+                       .to_str()
+                       .unwrap()
+                       .to_string();    // FIXME
+        let name = url.rsplitn(2, '/').collect::<Vec<_>>()[0];
+        let trailing: &str;
+
+        if fs::metadata(entry.path()).unwrap().is_dir() {
+            trailing = "/";
+        } else {
+            trailing = "";
+        }
+
+        html.push_str(format!("<li><a href='/{url}'>{name}{}</a></li>",
+                              trailing,
+                              url = url,
+                              name = name).as_str());
+    }
+
+    Some(html)
+}
+
+
+struct Wesers;
+
+impl Wesers {
+    pub fn new() -> Wesers {
+        Wesers {}
+    }
+}
+
+impl Handler for Wesers {
+    fn handle(&self, req: &mut Request) -> IronResult<Response> {
+        let mut path = req.url.path.join("/");
+
+        if path.is_empty() {
+            path = ".".to_string();
+        }
+
+        let path = Path::new(path.as_str());
+
+        let mut response;
+
+        if fs::metadata(&path).unwrap().is_dir() {
+
+            response = Response::with(
+                                    (status::Ok,
+                                     visit_dirs(path)
+                                        .unwrap()
+                                    )
+                               );
+            response.headers.set(ContentType::html());
+
+        } else {
+
+			// TODO: lazy_static
+            let mut mount = Mount::new();
+            mount.mount("/", Static::new(Path::new(".")));
+            response = mount.handle(req).unwrap();
+
+        }
+
+        Ok(response)
+    }
+}
 
 
 fn main() {
@@ -31,14 +107,11 @@ fn main() {
     // Handler
     ////////////////////
 
-    let mut mount = Mount::new();
-    mount.mount("/", Static::new(Path::new(".")));
+    let mut chain = Chain::new(Wesers::new());
 
     ////////////////////
     // Other Middlewares
     ////////////////////
-
-    let mut chain = Chain::new(mount);
 
     let (logger_before, logger_after) = Logger::new(None);
 
