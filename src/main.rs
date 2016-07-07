@@ -67,7 +67,14 @@ impl Handler for Wesers {
         }
 
         let path = Path::new(path.as_str());
-        let mut is_dir = fs::metadata(&path).unwrap().is_dir();
+
+        let metadata = fs::metadata(&path);
+        if metadata.is_err() {
+            // 404
+            return Ok(Response::with(status::NotFound));
+        }
+
+        let mut is_dir = metadata.unwrap().is_dir();
 
         if is_dir {
 
