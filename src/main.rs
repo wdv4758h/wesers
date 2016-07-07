@@ -87,6 +87,21 @@ impl Handler for Wesers {
                                        Redirect(req.url.clone()))));
             }
 
+            ////////////////////
+            // detect index.html
+            ////////////////////
+
+            let index_path = format!("{}/index.html",
+                                     &path.to_str()
+                                          .unwrap()
+                                          .trim_right_matches('/'));
+            let index = Path::new(index_path.as_str());
+
+            if fs::metadata(&index).is_ok() {
+                is_dir = false;
+                req.url.path.pop();
+                req.url.path.push("index.html".to_string());
+            }
         }
 
 
