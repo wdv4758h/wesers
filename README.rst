@@ -34,14 +34,48 @@ Usage
     GET http://127.0.0.1:8000/target/release/wesers -> 200 OK (5.063098 ms)
 
 
+Benchmarks
+========================================
+
+This is a simple load testing by `Herd <https://github.com/imjacobclark/Herd>`_
+(Just a simple test, not indicate a lot)
+
+.. code-block:: sh
+
+    # Running both herd and wesers on Intel Core i5-2400 with 4GB RAM
+    $ ./target/release/herd -t 4 -r 1000 http://127.0.0.1:8000
+
+    ...
+    Spawning virtual user 1
+    ...
+    Spawning virtual user 3
+    ...
+    I made a total of 4000 requests, the mean response time was: 0.00042591915919911117 seconds.
+
+
+
 Changelog
 ========================================
+
+v0.4.0 (Plan)
+------------------------------
+
+Features
+++++++++++++++++++++
+
+* support limit request times
+* code refactoring to improve performance
+
 
 v0.3.0 (Plan)
 ------------------------------
 
+Features
+++++++++++++++++++++
+
 * custom HTML template support
 * can run as CGI server
+* HTTPS support
 
 
 v0.2.0 (Plan)
@@ -69,7 +103,7 @@ Features
 Notice
 ========================================
 
-I've only test on my x86_64 Linux.
+I've only tested on my x86_64 Linux.
 Other platforms are built by CI.
 If they don't work properly, please tell me.
 
