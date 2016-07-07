@@ -7,6 +7,7 @@ readme = "README.rst"
 description = "a simple HTTP server in Rust"
 repository = "https://github.com/wdv4758h/wesers/"
 keywords = ["web", "server"]
+build = "build.rs"
 
 [dependencies]
 clap = { version = "2.9.1", features = ["yaml"] }
@@ -15,3 +16,6 @@ mount = "0.1"
 staticfile = "0.2.0"
 logger = "0.0.3"
 lazy_static = "0.2.1"
+
+[build-dependencies]
+clap = { version = "2.9.1", features = ["yaml"] }

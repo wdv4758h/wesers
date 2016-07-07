@@ -1,21 +1,20 @@
-#![deny(warnings)]
+#[macro_use]
+extern crate clap;
 
-extern crate rustc_version;
+use std::path::Path;
 
-use std::env;
-use std::fs::File;
-use std::io::Write;
+use clap::{App, Shell};
 
-fn hello() -> String {
-    let meta = rustc_version::version_meta();
-
-    format!("fn main() {{ println!(\"{}: {} says hello!\nCompiled with rust-{} ({:?} channel)\") }}\n#[test] fn ok() {{ assert!(true) }}",
-            env::var("CARGO_PKG_VERSION").unwrap(),
-            env::var("TARGET").unwrap(),
-            meta.semver,
-            meta.channel)
-}
 
 fn main() {
-    File::create("src/main.rs").unwrap().write_all(hello().as_bytes()).unwrap();
+    let cargo_target_dir = Path::new(env!("OUT_DIR"))
+                                .parent().unwrap()
+                                .parent().unwrap()
+                                .parent().unwrap()
+                                .as_os_str();
+    let yml = load_yaml!("src/arguments.yml");    // FIXME, make a function
+    let mut app = App::from_yaml(yml);
+    app.gen_completions("wesers",           // bin name
+                        Shell::Bash,        // target shell
+                        cargo_target_dir);  // writing path
 }
