@@ -80,17 +80,19 @@ Features
 * custom HTML template support
 * can run as CGI server
 * HTTPS support
+* optional userdir
+* log client IP (waiting PR https://github.com/iron/logger/pull/76)
 
 
-v0.2.0 (Plan)
+v0.2.0 (2016-07-08)
 ------------------------------
 
 Features
 ++++++++++++++++++++
 
 * Bash completion by clap
-* detect index.html
-* log client IP
+* optional index.html detection
+* handle 404 better
 
 
 v0.1.0 (2016-07-07)
