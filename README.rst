@@ -2,6 +2,10 @@
 wesers - a simple HTTP server in Rust
 ========================================
 
+If you want to download prebuilt binary,
+you can visit `GitHub's release page <https://github.com/wdv4758h/wesers/releases>`_
+
+
 Usage
 ========================================
 
