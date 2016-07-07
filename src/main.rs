@@ -15,6 +15,7 @@ use clap::App;              // CLI arguments
 use iron::prelude::*;
 use iron::{Handler, status};
 use iron::headers::ContentType;
+use iron::modifiers::Redirect;
 use staticfile::Static;     // middleware
 use mount::Mount;           // middleware
 use logger::Logger;         // middleware
@@ -66,10 +67,32 @@ impl Handler for Wesers {
         }
 
         let path = Path::new(path.as_str());
+        let mut is_dir = fs::metadata(&path).unwrap().is_dir();
+
+        if is_dir {
+
+            ////////////////////
+            // add trailing slash
+            // /xxx -> /xxx/
+            // ["target", "doc"] -> ["target", "doc", ""]
+            ////////////////////
+
+            if !req.url.path
+                       .last()
+                       .unwrap()
+                       .is_empty() {
+                req.url.path.push("".to_string());
+                return
+                    Ok(Response::with((status::MovedPermanently,
+                                       Redirect(req.url.clone()))));
+            }
+
+        }
+
 
         let mut response;
 
-        if fs::metadata(&path).unwrap().is_dir() {
+        if is_dir {
 
             response = Response::with(
                                     (status::Ok,
