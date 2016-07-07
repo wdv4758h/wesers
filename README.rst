@@ -12,7 +12,7 @@ Usage
 .. code-block:: sh
 
     $ wesers --help
-    wesers 0.1.0
+    wesers 0.2.0
     Chiu-Hsiang Hsu <wdv4758h@gmail.com>
     a simple HTTP server in Rust
 
@@ -24,8 +24,9 @@ Usage
         -V, --version    Prints version information
 
     OPTIONS:
-            --ip <ip>        binding IP [default: 127.0.0.1]
-            --port <port>    binding port [default: 8000]
+            --index <index>    auto detect index.html [default: true]
+            --ip <ip>          binding IP [default: 127.0.0.1]
+            --port <port>      binding port [default: 8000]
 
 
 .. code-block:: sh
