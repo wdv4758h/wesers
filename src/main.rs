@@ -40,9 +40,9 @@ fn visit_dirs(dir: &Path) -> Option<String> {
             trailing = "";
         }
 
-        html.push_str(format!("<li><a href='/{url}'>{name}{}</a></li>",
-                              trailing,
+        html.push_str(format!("<li><a href='/{url}{tr}'>{name}{tr}</a></li>",
                               url = url,
+                              tr = trailing,
                               name = name).as_str());
     }
 
