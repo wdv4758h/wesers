@@ -50,11 +50,13 @@ fn visit_dirs(dir: &Path) -> Option<String> {
 }
 
 
-struct Wesers;
+struct Wesers {
+    detect_index: bool,
+}
 
 impl Wesers {
-    pub fn new() -> Wesers {
-        Wesers {}
+    pub fn new(detect_index: bool) -> Wesers {
+        Wesers { detect_index: detect_index }
     }
 }
 
@@ -98,16 +100,18 @@ impl Handler for Wesers {
             // detect index.html
             ////////////////////
 
-            let index_path = format!("{}/index.html",
-                                     &path.to_str()
-                                          .unwrap()
-                                          .trim_right_matches('/'));
-            let index = Path::new(index_path.as_str());
+            if self.detect_index {
+                let index_path = format!("{}/index.html",
+                                         &path.to_str()
+                                              .unwrap()
+                                              .trim_right_matches('/'));
+                let index = Path::new(index_path.as_str());
 
-            if fs::metadata(&index).is_ok() {
-                is_dir = false;
-                req.url.path.pop();
-                req.url.path.push("index.html".to_string());
+                if fs::metadata(&index).is_ok() {
+                    is_dir = false;
+                    req.url.path.pop();
+                    req.url.path.push("index.html".to_string());
+                }
             }
         }
 
@@ -159,7 +163,14 @@ fn main() {
     // Handler
     ////////////////////
 
-    let mut chain = Chain::new(Wesers::new());
+    let mut chain = Chain::new(
+                        Wesers::new(
+                            arguments.value_of("index")
+                                     .unwrap()
+                                     .parse()
+                                     .unwrap()
+                        )
+                    );
 
     ////////////////////
     // Other Middlewares

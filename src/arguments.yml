@@ -14,3 +14,11 @@ args:
         long: port
         takes_value: true
         default_value: "8000"
+    - index:
+        help: auto detect index.html
+        long: index
+        takes_value: true
+        possible_values:
+            - true
+            - false
+        default_value: "true"
