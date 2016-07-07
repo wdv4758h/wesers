@@ -104,7 +104,7 @@ fn main() {
     // Parse Arguments
     ////////////////////
 
-    let yml = load_yaml!("src/arguments.yml");
+    let yml = load_yaml!("arguments.yml");
     let arguments = App::from_yaml(yml).get_matches();
 
     let address = format!("{}:{}", arguments.value_of("ip").unwrap(),
