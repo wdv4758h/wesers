@@ -73,15 +73,28 @@ fn visit_dirs(dir: &Path) -> Vec<Link> {
 
 struct Wesers {
     detect_index: bool,
-    template_dir: Option<String>,
+    template: mustache::Template,
 }
 
 impl Wesers {
     pub fn new(detect_index: bool,
-               template_dir: Option<String>) -> Wesers {
+               template_path: Option<String>) -> Wesers {
+
+        let template = {
+            if let Some(ref template_path) = template_path {
+                // custom template
+                mustache::compile_path(Path::new(template_path))
+                         .unwrap()
+            } else {
+                // default template
+                let default = include_str!("default.mustache");
+                mustache::compile_str(default)
+            }
+        };
+
         Wesers {
             detect_index: detect_index,
-            template_dir: template_dir,
+            template: template,
         }
     }
 }
@@ -148,23 +161,11 @@ impl Handler for Wesers {
 
             let dir_data = visit_dirs(path);
 
-            // TODO, make it static
-            let template;
-            if let Some(ref template_dir) = self.template_dir {
-                // custom template
-                template = mustache::compile_path(Path::new(template_dir))
-                                    .unwrap();
-            } else {
-                // default template
-                let default = include_str!("default.mustache");
-                template = mustache::compile_str(default);
-            }
-
             let mut data = HashMap::new();
             data.insert("links", dir_data);
 
             let mut bytes = vec![];
-            template.render(&mut bytes, &data).unwrap();
+            self.template.render(&mut bytes, &data).unwrap();
             let result = str::from_utf8(&bytes).unwrap();
 
             response = Response::with((status::Ok, result));
