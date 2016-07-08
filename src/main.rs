@@ -15,7 +15,6 @@ extern crate mustache;          // Template
 use std::str;
 use std::fs;
 use std::path::Path;
-use std::collections::HashMap;
 
 use clap::App;              // CLI arguments
 use iron::prelude::*;
@@ -25,6 +24,7 @@ use iron::modifiers::Redirect;
 use staticfile::Static;     // middleware
 use mount::Mount;           // middleware
 use logger::Logger;         // middleware
+use mustache::{MapBuilder, VecBuilder};
 
 
 #[derive(RustcEncodable)]
@@ -34,9 +34,9 @@ struct Link {
 }
 
 
-fn visit_dirs(dir: &Path) -> Vec<Link> {
+fn visit_dirs(dir: &Path) -> VecBuilder {
 
-    let mut data = vec![];
+    let mut data = VecBuilder::new();
 
     for entry in fs::read_dir(dir).unwrap() {
         let entry = entry.unwrap();
@@ -59,12 +59,12 @@ fn visit_dirs(dir: &Path) -> Vec<Link> {
         abs_url.push_str(trailing);
         name.push_str(trailing);
 
-        data.push(
-            Link {
+        data = data.push(
+            &Link {
                 url: abs_url,
                 name: name,
             }
-        )
+        ).ok().unwrap();
     }
 
     data
@@ -159,13 +159,14 @@ impl Handler for Wesers {
 
         if is_dir {
 
-            let dir_data = visit_dirs(path);
-
-            let mut data = HashMap::new();
-            data.insert("links", dir_data);
+            let mut data = MapBuilder::new()
+                    .insert_vec("links", |_| visit_dirs(path))
+                    .insert_str("current_dir",
+                                format!("/{}", path.to_str().unwrap()))
+                    .build();
 
             let mut bytes = vec![];
-            self.template.render(&mut bytes, &data).unwrap();
+            self.template.render_data(&mut bytes, &data);
             let result = str::from_utf8(&bytes).unwrap();
 
             response = Response::with((status::Ok, result));
