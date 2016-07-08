@@ -16,6 +16,8 @@ mount = "0.1"
 staticfile = "0.2.0"
 logger = "0.0.3"
 lazy_static = "0.2.1"
+rustc-serialize = "0.3.19"
+mustache = "0.7.0"
 
 [build-dependencies]
 clap = { version = "2.9.1", features = ["yaml"] }

@@ -8,8 +8,14 @@ extern crate staticfile;
 extern crate mount;
 extern crate logger;
 
+extern crate rustc_serialize;   // Needed by mustache template
+extern crate mustache;          // Template
+
+
+use std::str;
 use std::fs;
 use std::path::Path;
+use std::collections::HashMap;
 
 use clap::App;              // CLI arguments
 use iron::prelude::*;
@@ -21,9 +27,16 @@ use mount::Mount;           // middleware
 use logger::Logger;         // middleware
 
 
-fn visit_dirs(dir: &Path) -> Option<String> {
+#[derive(RustcEncodable)]
+struct Link {
+    url: String,
+    name: String,
+}
 
-    let mut html = "".to_string();
+
+fn visit_dirs(dir: &Path) -> Vec<Link> {
+
+    let mut data = vec![];
 
     for entry in fs::read_dir(dir).unwrap() {
         let entry = entry.unwrap();
@@ -32,31 +45,44 @@ fn visit_dirs(dir: &Path) -> Option<String> {
                        .unwrap()
                        .to_string();    // FIXME
         let name = url.rsplitn(2, '/').collect::<Vec<_>>()[0];
-        let trailing: &str;
 
+        let trailing: &str;
         if fs::metadata(entry.path()).unwrap().is_dir() {
             trailing = "/";
         } else {
             trailing = "";
         }
 
-        html.push_str(format!("<li><a href='/{url}{tr}'>{name}{tr}</a></li>",
-                              url = url,
-                              tr = trailing,
-                              name = name).as_str());
+        let mut abs_url = "/".to_string();  // /xxx/ooo/ or /xxx/ooo
+        let mut name = name.to_string();    // ooo/ or ooo
+        abs_url.push_str(url.as_str());
+        abs_url.push_str(trailing);
+        name.push_str(trailing);
+
+        data.push(
+            Link {
+                url: abs_url,
+                name: name,
+            }
+        )
     }
 
-    Some(html)
+    data
 }
 
 
 struct Wesers {
     detect_index: bool,
+    template_dir: Option<String>,
 }
 
 impl Wesers {
-    pub fn new(detect_index: bool) -> Wesers {
-        Wesers { detect_index: detect_index }
+    pub fn new(detect_index: bool,
+               template_dir: Option<String>) -> Wesers {
+        Wesers {
+            detect_index: detect_index,
+            template_dir: template_dir,
+        }
     }
 }
 
@@ -120,12 +146,28 @@ impl Handler for Wesers {
 
         if is_dir {
 
-            response = Response::with(
-                                    (status::Ok,
-                                     visit_dirs(path)
-                                        .unwrap()
-                                    )
-                               );
+            let dir_data = visit_dirs(path);
+
+            // TODO, make it static
+            let template;
+            if let Some(ref template_dir) = self.template_dir {
+                // custom template
+                template = mustache::compile_path(Path::new(template_dir))
+                                    .unwrap();
+            } else {
+                // default template
+                let default = include_str!("default.mustache");
+                template = mustache::compile_str(default);
+            }
+
+            let mut data = HashMap::new();
+            data.insert("links", dir_data);
+
+            let mut bytes = vec![];
+            template.render(&mut bytes, &data).unwrap();
+            let result = str::from_utf8(&bytes).unwrap();
+
+            response = Response::with((status::Ok, result));
             response.headers.set(ContentType::html());
 
         } else {
@@ -168,7 +210,9 @@ fn main() {
                             arguments.value_of("index")
                                      .unwrap()
                                      .parse()
-                                     .unwrap()
+                                     .unwrap(),
+                            arguments.value_of("template")
+                                     .map(|s| s.to_string())
                         )
                     );
 

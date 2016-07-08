@@ -22,3 +22,7 @@ args:
             - true
             - false
         default_value: "true"
+    - template:
+        help: HTML template directory
+        long: template
+        takes_value: true
