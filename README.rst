@@ -2,6 +2,26 @@
 wesers - a simple HTTP server in Rust
 ========================================
 
+Installation
+========================================
+
+If you want to build from source, ``cargo install wesers`` may not work.
+(As it don't look ``Cargo.lock`` currently)
+
+
+Install with
+
+.. code-block:: sh
+
+    cargo install --git https://github.com/wdv4758h/wesers
+
+or
+
+.. code-block:: sh
+
+    cargo install --git https://github.com/wdv4758h/wesers --tag v0.2.0
+
+
 If you want to download prebuilt binary,
 you can visit `GitHub's release page <https://github.com/wdv4758h/wesers/releases>`_
 
