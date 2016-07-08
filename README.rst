@@ -32,9 +32,9 @@ Usage
 .. code-block:: sh
 
     $ wesers --help
-    wesers 0.2.0
+    wesers 0.3.0
     Chiu-Hsiang Hsu <wdv4758h@gmail.com>
-    a simple HTTP server in Rust
+    a simple HTTP/HTTPS server in Rust
 
     USAGE:
         wesers [FLAGS] [OPTIONS]
@@ -84,9 +84,9 @@ x86_64 Linux;
 +----------+---------+------------+--------------+-----------+
 | Filename | Version | Stripped ? | Size (Bytes) | Size (MB) |
 +----------+---------+------------+--------------+-----------+
-| wesers   | v0.2.0  | No         | 3645224      | 3.5M      |
+| wesers   | v0.3.0  | No         | 3760376      | 3.6M      |
 +----------+---------+------------+--------------+-----------+
-| wesers   | v0.2.0  | Yes        | 2836488      | 2.8M      |
+| wesers   | v0.3.0  | Yes        | 2929208      | 2.8M      |
 +----------+---------+------------+--------------+-----------+
 
 
@@ -125,6 +125,7 @@ Not Implemented Yet (Plan)
 * handle POST for upload files
 * Android support
 * more template engine support
+* fix everything discover by linter (e.g. clippy)
 * code refactoring to improve performance
 * reduce binary size
 * log client IP (waiting PR https://github.com/iron/logger/pull/76)
@@ -138,7 +139,7 @@ Features
 ++++++++++++++++++++
 
 
-v0.3.0 (Plan)
+v0.3.0 (2016-07-08)
 ------------------------------
 
 Features
