@@ -37,16 +37,21 @@ Usage
     a simple HTTP server in Rust
 
     USAGE:
-        wesers [OPTIONS]
+        wesers [FLAGS] [OPTIONS]
 
     FLAGS:
         -h, --help       Prints help information
+            --https      use HTTPS instead of HTTP
         -V, --version    Prints version information
 
     OPTIONS:
-            --index <index>    auto detect index.html [default: true]
-            --ip <ip>          binding IP [default: 127.0.0.1]
-            --port <port>      binding port [default: 8000]
+            --cert <cert>            SSL certificate file (needed for HTTPS)
+            --index <index>          auto detect index.html [default: true]
+            --ip <ip>                binding IP [default: 127.0.0.1]
+            --key <key>              SSL key file (needed for HTTPS)
+            --port <port>            binding port [default: 8000]
+            --root <root>            wesers' root directory [default: .]
+            --template <template>    HTML template path
 
 
 .. code-block:: sh
@@ -57,6 +62,33 @@ Usage
     GET http://127.0.0.1:8000/target -> 200 OK (0.043674 ms)
     GET http://127.0.0.1:8000/target/release -> 200 OK (0.082394 ms)
     GET http://127.0.0.1:8000/target/release/wesers -> 200 OK (5.063098 ms)
+
+
+.. code-block:: sh
+
+    $ wesers --ip 127.0.0.1 --port 8080 --template ./custom.mustache
+    Simple HTTP Server running on http://127.0.0.1:8080/
+
+
+.. code-block:: sh
+
+    $ wesers --https --cert mycert.pem --key mykey.pem
+    Simple HTTP Server running on https://127.0.0.1:8000/
+
+
+Binary Size
+========================================
+
+x86_64 Linux;
+
++----------+---------+------------+--------------+-----------+
+| Filename | Version | Stripped ? | Size (Bytes) | Size (MB) |
++----------+---------+------------+--------------+-----------+
+| wesers   | v0.2.0  | No         | 3645224      | 3.5M      |
++----------+---------+------------+--------------+-----------+
+| wesers   | v0.2.0  | Yes        | 2836488      | 2.8M      |
++----------+---------+------------+--------------+-----------+
+
 
 
 Benchmarks
@@ -82,14 +114,28 @@ This is a simple load testing by `Herd <https://github.com/imjacobclark/Herd>`_
 Changelog
 ========================================
 
+Not Implemented Yet (Plan)
+------------------------------
+
+* optional userdir
+* support limit request times
+* RESTful API for files and directories
+* can run as CGI server
+* template live reload
+* handle POST for upload files
+* Android support
+* more template engine support
+* code refactoring to improve performance
+* reduce binary size
+* log client IP (waiting PR https://github.com/iron/logger/pull/76)
+* unicode url support (issue https://github.com/iron/staticfile/issues/76)
+
+
 v0.4.0 (Plan)
 ------------------------------
 
 Features
 ++++++++++++++++++++
-
-* support limit request times
-* code refactoring to improve performance
 
 
 v0.3.0 (Plan)
@@ -98,11 +144,9 @@ v0.3.0 (Plan)
 Features
 ++++++++++++++++++++
 
-* custom HTML template support
-* can run as CGI server
-* HTTPS support
-* optional userdir
-* log client IP (waiting PR https://github.com/iron/logger/pull/76)
+* custom HTML template support (with `mustache <https://mustache.github.io/>`_ )
+* custom root directory support
+* HTTPS support (with OpenSSL)
 
 
 v0.2.0 (2016-07-08)
@@ -136,13 +180,28 @@ If they don't work properly, please tell me.
 
 
 
+Developement
+========================================
+
+Making Release
+------------------------------
+
+1. update version in ``src/arguments.yml``
+2. update version in ``Cargo.toml``
+3. update version in ``Cargo.lock``
+4. add git tag
+
+
+
 Special Thanks
 ========================================
 
 * `rust-everywhere <https://github.com/japaric/rust-everywhere/>`_ for CI integration
 * `clap-rs <https://github.com/kbknapp/clap-rs>`_ for arguments parsing
 * `iron <https://github.com/iron/iron>`_ for Rust web framework
+* `mustache <https://github.com/nickel-org/rust-mustache>`_ for HTML template
 * `Rust Team <https://www.rust-lang.org/team.html>`_
+* and every project I've used
 
 
 
