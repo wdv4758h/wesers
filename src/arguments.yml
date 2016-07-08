@@ -23,6 +23,6 @@ args:
             - false
         default_value: "true"
     - template:
-        help: HTML template directory
+        help: HTML template path
         long: template
         takes_value: true
