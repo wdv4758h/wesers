@@ -14,7 +14,7 @@ extern crate mustache;          // Template
 
 use std::str;
 use std::fs;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::env;
 
 use clap::App;              // CLI arguments
@@ -240,6 +240,13 @@ fn main() {
     // Start Server
     ////////////////////
 
-    println!("Simple HTTP Server running on http://{}/", address);
-    Iron::new(chain).http(address.as_str()).unwrap();
+    if arguments.occurrences_of("https") > 0 {
+        println!("Simple HTTP Server running on https://{}/", address);
+        let cert = PathBuf::from(arguments.value_of("cert").unwrap());
+        let key = PathBuf::from(arguments.value_of("key").unwrap());
+        Iron::new(chain).https(address.as_str(), cert, key).unwrap();
+    } else {
+        println!("Simple HTTP Server running on http://{}/", address);
+        Iron::new(chain).http(address.as_str()).unwrap();
+    }
 }

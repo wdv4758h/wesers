@@ -31,3 +31,17 @@ args:
         long: root
         takes_value: true
         default_value: "."
+    - cert:
+        help: SSL certificate file (needed for HTTPS)
+        long: cert
+        takes_value: true
+    - key:
+        help: SSL key file (needed for HTTPS)
+        long: key
+        takes_value: true
+    - https:
+        help: use HTTPS instead of HTTP
+        long: https
+        requires:
+            - cert
+            - key
