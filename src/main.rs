@@ -15,6 +15,7 @@ extern crate mustache;          // Template
 use std::str;
 use std::fs;
 use std::path::Path;
+use std::env;
 
 use clap::App;              // CLI arguments
 use iron::prelude::*;
@@ -74,11 +75,13 @@ fn visit_dirs(dir: &Path) -> VecBuilder {
 struct Wesers {
     detect_index: bool,
     template: mustache::Template,
+    mount: Mount,
 }
 
 impl Wesers {
     pub fn new(detect_index: bool,
-               template_path: Option<String>) -> Wesers {
+               template_path: Option<String>,
+               root_dir: &str) -> Wesers {
 
         let template = {
             if let Some(ref template_path) = template_path {
@@ -92,9 +95,18 @@ impl Wesers {
             }
         };
 
+        env::set_current_dir(Path::new(root_dir)).unwrap();
+
+        let mount = {
+            let mut m = Mount::new();
+            m.mount("/", Static::new(Path::new(".")));
+            m
+        };
+
         Wesers {
             detect_index: detect_index,
             template: template,
+            mount: mount,
         }
     }
 }
@@ -174,15 +186,7 @@ impl Handler for Wesers {
 
         } else {
 
-            lazy_static! {
-                static ref MOUNT: Mount = {
-                    let mut m = Mount::new();
-                    m.mount("/", Static::new(Path::new(".")));
-                    m
-                };
-            }
-
-            response = MOUNT.handle(req).unwrap();
+            response = self.mount.handle(req).unwrap();
 
         }
 
@@ -214,7 +218,9 @@ fn main() {
                                      .parse()
                                      .unwrap(),
                             arguments.value_of("template")
-                                     .map(|s| s.to_string())
+                                     .map(|s| s.to_string()),
+                            arguments.value_of("root")
+                                     .unwrap()
                         )
                     );
 

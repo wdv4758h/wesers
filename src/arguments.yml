@@ -26,3 +26,8 @@ args:
         help: HTML template path
         long: template
         takes_value: true
+    - root:
+        help: wesers' root directory
+        long: root
+        takes_value: true
+        default_value: "."
