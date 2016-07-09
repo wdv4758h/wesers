@@ -75,11 +75,11 @@ deploy:
   auth_token:
     secure: NakR7dSBOSbXwkQc1PTysSt926NKIdqqFKVoYjO7/+2wPbkDCETgYmlfKTBFJ+qn
   provider: GitHub
-  # deploy when a new tag is pushed and only on the stable channel
+  # deploy when a new tag is pushed and only on the nightly channel
   on:
     # channel to use to produce the release artifacts
     # NOTE make sure you only release *once* per target
-    CHANNEL: stable
+    CHANNEL: nightly
     appveyor_repo_tag: true
 
 branches:

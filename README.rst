@@ -1,6 +1,9 @@
-========================================
-wesers - a simple HTTP server in Rust
-========================================
+===========================================
+wesers - a simple HTTP/HTTPS server in Rust
+===========================================
+
+.. contents:: Table of Contents
+
 
 Installation
 ========================================
@@ -19,7 +22,7 @@ or
 
 .. code-block:: sh
 
-    cargo install --git https://github.com/wdv4758h/wesers --tag v0.2.0
+    cargo install --git https://github.com/wdv4758h/wesers --tag v0.3.1
 
 
 If you want to download prebuilt binary,
@@ -32,7 +35,7 @@ Usage
 .. code-block:: sh
 
     $ wesers --help
-    wesers 0.3.0
+    wesers 0.3.1
     Chiu-Hsiang Hsu <wdv4758h@gmail.com>
     a simple HTTP/HTTPS server in Rust
 
@@ -50,7 +53,7 @@ Usage
             --ip <ip>                binding IP [default: 127.0.0.1]
             --key <key>              SSL key file (needed for HTTPS)
             --port <port>            binding port [default: 8000]
-            --root <root>            wesers' root directory [default: .]
+            --root <root>            root directory [default: .]
             --template <template>    HTML template path
 
 
@@ -79,14 +82,14 @@ Usage
 Binary Size
 ========================================
 
-x86_64 Linux;
+x86_64 Linux:
 
 +----------+---------+------------+--------------+-----------+
 | Filename | Version | Stripped ? | Size (Bytes) | Size (MB) |
 +----------+---------+------------+--------------+-----------+
-| wesers   | v0.3.0  | No         | 3760376      | 3.6M      |
+| wesers   | v0.3.1  | No         | 3760376      | 3.6M      |
 +----------+---------+------------+--------------+-----------+
-| wesers   | v0.3.0  | Yes        | 2929208      | 2.8M      |
+| wesers   | v0.3.1  | Yes        | 2929208      | 2.8M      |
 +----------+---------+------------+--------------+-----------+
 
 
@@ -137,6 +140,15 @@ v0.4.0 (Plan)
 
 Features
 ++++++++++++++++++++
+
+
+v0.3.1 (2016-07-09)
+------------------------------
+
+Fix
+++++++++++++++++++++
+
+* make HTTPS optional (because of the dependency of OpenSSL)
 
 
 v0.3.0 (2016-07-08)

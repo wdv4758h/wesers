@@ -1,6 +1,6 @@
 [package]
 name = "wesers"
-version = "0.3.0"
+version = "0.3.1"
 authors = ["Chiu-Hsiang Hsu <wdv4758h@gmail.com>"]
 license = "AGPL-3.0"
 readme = "README.rst"
