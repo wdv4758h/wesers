@@ -1,3 +1,5 @@
+#![feature(stmt_expr_attributes)]
+
 #[macro_use]
 extern crate clap;
 #[macro_use]
@@ -241,10 +243,17 @@ fn main() {
     ////////////////////
 
     if arguments.occurrences_of("https") > 0 {
-        println!("Simple HTTP Server running on https://{}/", address);
-        let cert = PathBuf::from(arguments.value_of("cert").unwrap());
-        let key = PathBuf::from(arguments.value_of("key").unwrap());
-        Iron::new(chain).https(address.as_str(), cert, key).unwrap();
+        #[cfg(feature = "https")]
+        {
+            println!("Simple HTTPS Server running on https://{}/", address);
+            let cert = PathBuf::from(arguments.value_of("cert").unwrap());
+            let key = PathBuf::from(arguments.value_of("key").unwrap());
+            Iron::new(chain).https(address.as_str(), cert, key).unwrap();
+        }
+        #[cfg(not(feature = "https"))]
+        {
+            println!("To use HTTPS, you need to compile with 'https' feature");
+        }
     } else {
         println!("Simple HTTP Server running on http://{}/", address);
         Iron::new(chain).http(address.as_str()).unwrap();
