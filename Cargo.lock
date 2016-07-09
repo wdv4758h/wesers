@@ -4,7 +4,6 @@ version = "0.3.1"
 dependencies = [
  "clap 2.9.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "iron 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "lazy_static 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "logger 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "mount 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "mustache 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
