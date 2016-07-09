@@ -8,6 +8,8 @@ wesers - a simple HTTP/HTTPS server in Rust
 Installation
 ========================================
 
+(You need to compile with nightly, now)
+
 If you want to build from source, ``cargo install wesers`` may not work.
 (As it don't look ``Cargo.lock`` currently)
 
@@ -120,6 +122,8 @@ Changelog
 Not Implemented Yet (Plan)
 ------------------------------
 
+* more documentation
+* QR code support
 * optional userdir
 * support limit request times
 * RESTful API for files and directories
