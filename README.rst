@@ -122,6 +122,7 @@ Changelog
 Not Implemented Yet (Plan)
 ------------------------------
 
+* more files information (type, size, last modified time)
 * more documentation
 * QR code support
 * optional userdir
@@ -207,6 +208,58 @@ Making Release
 2. update version in ``Cargo.toml``
 3. update version in ``Cargo.lock``
 4. add git tag
+
+
+Dependency of Shared Libraries
+------------------------------
+
+x86_64, Linux, no HTTPS
+
+.. code-block:: sh
+
+    $ ldd ./target/release/wesers
+            linux-vdso.so.1 (0x00007fff05f4c000)
+            libdl.so.2 => /usr/lib/libdl.so.2 (0x00007f1531e71000)
+            libpthread.so.0 => /usr/lib/libpthread.so.0 (0x00007f1531c54000)
+            libgcc_s.so.1 => /usr/lib/libgcc_s.so.1 (0x00007f1531a3e000)
+            libc.so.6 => /usr/lib/libc.so.6 (0x00007f153169d000)
+            /lib64/ld-linux-x86-64.so.2 (0x00007f1532075000)
+
+
+x86_64, Linux, with HTTPS
+
+.. code-block:: sh
+
+    $ ldd ./target/release/wesers
+            linux-vdso.so.1 (0x00007fffdbe85000)
+            libssl.so.1.0.0 => /usr/lib/libssl.so.1.0.0 (0x00007f168b810000)
+            libcrypto.so.1.0.0 => /usr/lib/libcrypto.so.1.0.0 (0x00007f168b399000)
+            libdl.so.2 => /usr/lib/libdl.so.2 (0x00007f168b195000)
+            libpthread.so.0 => /usr/lib/libpthread.so.0 (0x00007f168af78000)
+            libgcc_s.so.1 => /usr/lib/libgcc_s.so.1 (0x00007f168ad62000)
+            libc.so.6 => /usr/lib/libc.so.6 (0x00007f168a9c1000)
+            /lib64/ld-linux-x86-64.so.2 (0x00007f168ba81000)
+
+
+x86_64, Linux, musl, no HTTPS
+
+.. code-block:: sh
+
+    $ ldd ./target/x86_64-unknown-linux-musl/release/wesers
+            not a dynamic executable
+
+
+x86_64, Linux, musl, with HTTPS
+
+.. code-block:: sh
+
+    $ ldd ./target/x86_64-unknown-linux-musl/release/wesers
+            linux-vdso.so.1 (0x00007ffc55496000)
+            libssl.so.1.0.0 => /usr/lib/libssl.so.1.0.0 (0x00007f69cb9c8000)
+            libcrypto.so.1.0.0 => /usr/lib/libcrypto.so.1.0.0 (0x00007f69cb551000)
+            libc.so.6 => /usr/lib/libc.so.6 (0x00007f69cb1b0000)
+            libdl.so.2 => /usr/lib/libdl.so.2 (0x00007f69cafac000)
+            /lib/ld64.so.1 (0x00007f69cbc39000)
 
 
 
