@@ -141,6 +141,15 @@ Not Implemented Yet (Plan)
 * unicode url support (issue https://github.com/iron/staticfile/issues/76)
 
 
+v0.4.1
+------------------------------
+
+Fix
+++++++++++++++++++++
+
+* HTTPS build
+
+
 v0.4.0 (2016-08-03)
 ------------------------------
 

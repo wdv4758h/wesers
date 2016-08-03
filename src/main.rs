@@ -88,6 +88,8 @@ fn main() {
     if arguments.occurrences_of("https") > 0 {
         #[cfg(feature = "https")]
         {
+            use std::path::PathBuf;
+
             println!("Simple HTTPS Server running on https://{}/", address);
             let cert = PathBuf::from(arguments.value_of("cert").unwrap());
             let key = PathBuf::from(arguments.value_of("key").unwrap());
