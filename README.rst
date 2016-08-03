@@ -37,7 +37,7 @@ Usage
 .. code-block:: sh
 
     $ wesers --help
-    wesers 0.3.1
+    wesers 0.4.0
     Chiu-Hsiang Hsu <wdv4758h@gmail.com>
     a simple HTTP/HTTPS server in Rust
 
@@ -63,10 +63,7 @@ Usage
 
     $ wesers
     Simple HTTP Server running on http://127.0.0.1:8000/
-    GET http://127.0.0.1:8000/ -> 200 OK (0.110684 ms)
-    GET http://127.0.0.1:8000/target -> 200 OK (0.043674 ms)
-    GET http://127.0.0.1:8000/target/release -> 200 OK (0.082394 ms)
-    GET http://127.0.0.1:8000/target/release/wesers -> 200 OK (5.063098 ms)
+    127.0.0.1:54400 GET http://127.0.0.1:8000/ -> 200 OK (0.268528 ms)
 
 
 .. code-block:: sh
@@ -89,9 +86,9 @@ x86_64 Linux:
 +----------+---------+------------+--------------+-----------+
 | Filename | Version | Stripped ? | Size (Bytes) | Size (MB) |
 +----------+---------+------------+--------------+-----------+
-| wesers   | v0.3.1  | No         | 3760376      | 3.6M      |
+| wesers   | v0.4.0  | No         | 3573904      | 3.5M      |
 +----------+---------+------------+--------------+-----------+
-| wesers   | v0.3.1  | Yes        | 2929208      | 2.8M      |
+| wesers   | v0.4.0  | Yes        | 2769832      | 2.7M      |
 +----------+---------+------------+--------------+-----------+
 
 
@@ -136,15 +133,17 @@ Not Implemented Yet (Plan)
 * fix everything discover by linter (e.g. clippy)
 * code refactoring to improve performance
 * reduce binary size
-* log client IP (waiting PR https://github.com/iron/logger/pull/76)
 * unicode url support (issue https://github.com/iron/staticfile/issues/76)
 
 
-v0.4.0 (Plan)
+v0.4.0 (2016-08-03)
 ------------------------------
 
 Features
 ++++++++++++++++++++
+
+* log client IP
+* update all dependencies
 
 
 v0.3.1 (2016-07-09)
