@@ -1,12 +1,13 @@
 use std::str;
 use std::fs;
-use std::path::{Path, PathBuf};
+use std::path::Path;
 use std::env;
 
 use iron::prelude::*;
 use iron::{Handler, status};
 use iron::headers::ContentType;
 use iron::modifiers::Redirect;
+use iron::Url;
 use staticfile::Static;     // middleware
 use mount::Mount;           // middleware
 use mustache::{self, MapBuilder, VecBuilder};
@@ -97,7 +98,7 @@ impl Wesers {
 
 impl Handler for Wesers {
     fn handle(&self, req: &mut Request) -> IronResult<Response> {
-        let mut path = req.url.path.join("/");
+        let mut path = req.url.path().join("/");
 
         if path.is_empty() {
             path = ".".to_string();
@@ -121,11 +122,14 @@ impl Handler for Wesers {
             // ["target", "doc"] -> ["target", "doc", ""]
             ////////////////////
 
-            if !req.url.path
+            if !req.url.path()
                        .last()
                        .unwrap()
                        .is_empty() {
-                req.url.path.push("".to_string());
+                let mut url = req.url.clone().into_generic_url();
+                url.set_path(format!("{}/",
+                                     req.url.path().join("/")).as_str());
+                req.url = Url::from_generic_url(url).unwrap();
                 return
                     Ok(Response::with((status::MovedPermanently,
                                        Redirect(req.url.clone()))));
@@ -144,8 +148,11 @@ impl Handler for Wesers {
 
                 if fs::metadata(&index).is_ok() {
                     is_dir = false;
-                    req.url.path.pop();
-                    req.url.path.push("index.html".to_string());
+                    let mut url = req.url.clone().into_generic_url();
+                    url.set_path(format!("{}{}",
+                                         req.url.path().join("/"),
+                                         "index.html").as_str());
+                    req.url = Url::from_generic_url(url).unwrap();
                 }
             }
         }
@@ -155,11 +162,11 @@ impl Handler for Wesers {
 
         if is_dir {
 
-            let mut data = MapBuilder::new()
-                    .insert_vec("links", |_| visit_dirs(path))
-                    .insert_str("current_dir",
-                                format!("/{}", path.to_str().unwrap()))
-                    .build();
+            let data = MapBuilder::new()
+                .insert_vec("links", |_| visit_dirs(path))
+                .insert_str("current_dir",
+                            format!("/{}", path.to_str().unwrap()))
+                .build();
 
             let mut bytes = vec![];
             self.template.render_data(&mut bytes, &data);
