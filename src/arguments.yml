@@ -1,5 +1,5 @@
 name: wesers
-version: 0.4.0
+version: 0.4.1
 about: a simple HTTP/HTTPS server in Rust
 author: Chiu-Hsiang Hsu <wdv4758h@gmail.com>
 

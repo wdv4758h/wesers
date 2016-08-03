@@ -13,6 +13,9 @@ Installation
 If you want to build from source, make sure you are using nightly toolchain !
 
 
+Without HTTPS support
+------------------------------
+
 Install with
 
 .. code-block:: sh
@@ -23,11 +26,28 @@ or
 
 .. code-block:: sh
 
-    cargo install --git https://github.com/wdv4758h/wesers --tag v0.4.0
+    cargo install --git https://github.com/wdv4758h/wesers --tag v0.4.1
 
 
 If you want to download prebuilt binary,
 you can visit `GitHub's release page <https://github.com/wdv4758h/wesers/releases>`_
+
+
+With HTTPS support
+------------------------------
+
+Install with
+
+.. code-block:: sh
+
+    cargo install --git https://github.com/wdv4758h/wesers --features https
+
+or
+
+.. code-block:: sh
+
+    cargo install --git https://github.com/wdv4758h/wesers --tag v0.4.1 --features https
+
 
 
 Usage
@@ -36,7 +56,7 @@ Usage
 .. code-block:: sh
 
     $ wesers --help
-    wesers 0.4.0
+    wesers 0.4.1
     Chiu-Hsiang Hsu <wdv4758h@gmail.com>
     a simple HTTP/HTTPS server in Rust
 
@@ -91,9 +111,9 @@ x86_64 Linux:
 +----------+---------+------------+--------------+-----------+
 | Filename | Version | Stripped ? | Size (Bytes) | Size (MB) |
 +----------+---------+------------+--------------+-----------+
-| wesers   | v0.4.0  | No         | 3573904      | 3.5M      |
+| wesers   | v0.4.1  | No         | 3573904      | 3.5M      |
 +----------+---------+------------+--------------+-----------+
-| wesers   | v0.4.0  | Yes        | 2769832      | 2.7M      |
+| wesers   | v0.4.1  | Yes        | 2769832      | 2.7M      |
 +----------+---------+------------+--------------+-----------+
 
 
@@ -139,9 +159,10 @@ Not Implemented Yet (Plan)
 * code refactoring to improve performance
 * reduce binary size
 * unicode url support (issue https://github.com/iron/staticfile/issues/76)
+* HTTP2 support
 
 
-v0.4.1
+v0.4.1 (2016-08-03)
 ------------------------------
 
 Fix
