@@ -3,6 +3,9 @@ version: 0.4.1
 about: a simple HTTP/HTTPS server in Rust
 author: Chiu-Hsiang Hsu <wdv4758h@gmail.com>
 
+settings:
+    - ColoredHelp
+
 args:
     - ip:
         help: binding IP
