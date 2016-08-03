@@ -21,6 +21,7 @@ staticfile = "0.3.0"    # iron 0.4
 logger = "0.1.0"        # iron 0.4
 rustc-serialize = "0.3.19"
 mustache = "0.7.0"
+term = "0.4"
 
 [build-dependencies]
 clap = { version = "2.10.0", features = ["yaml"] }

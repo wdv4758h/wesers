@@ -8,15 +8,33 @@ extern crate staticfile;        // Iron's middleware
 extern crate mount;             // Iron's middleware
 extern crate rustc_serialize;   // needed by mustache template
 extern crate mustache;          // mustache template
+extern crate term;
 
 mod handler;
 
 use clap::App;              // CLI arguments
 use iron::prelude::*;       // web framework
 use logger::Logger;         // middleware
+use logger::format::{Format, FormatColor};
+use term::color;
 
 use handler::Wesers;        // my handler
 
+
+// from iron logger
+fn status_color(_req: &Request, res: &Response) -> Option<color::Color> {
+    use iron::status::StatusClass::*;
+    use iron::status::NotFound;
+
+    match res.status.unwrap_or(NotFound).class() {
+        Informational   => Some(color::BLUE),
+        Success         => Some(color::GREEN),
+        Redirection     => Some(color::YELLOW),
+        ClientError     => Some(color::RED),
+        ServerError     => Some(color::BRIGHT_RED),
+        NoClass         => None
+    }
+}
 
 fn main() {
 
@@ -51,7 +69,11 @@ fn main() {
     // Other Middlewares
     ////////////////////
 
-    let (logger_before, logger_after) = Logger::new(None);
+    let format =
+        Format::new(
+            "{ip-addr} @[bold]{method}@ {uri} @[bold]->@ @[C]{status}@ ({response-time})",
+            vec![FormatColor::FunctionColor(status_color)], vec![]).unwrap();
+    let (logger_before, logger_after) = Logger::new(Some(format));
 
     // Link logger_before as your first before middleware.
     chain.link_before(logger_before);
