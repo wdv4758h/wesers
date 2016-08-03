@@ -32,12 +32,11 @@ fn visit_dirs(dir: &Path) -> VecBuilder {
                        .to_string();    // FIXME
         let name = url.rsplitn(2, '/').collect::<Vec<_>>()[0];
 
-        let trailing: &str;
-        if fs::metadata(entry.path()).unwrap().is_dir() {
-            trailing = "/";
+        let trailing = if fs::metadata(entry.path()).unwrap().is_dir() {
+            "/"
         } else {
-            trailing = "";
-        }
+            ""
+        };
 
         let mut abs_url = "/".to_string();  // /xxx/ooo/ or /xxx/ooo
         let mut name = name.to_string();    // ooo/ or ooo
