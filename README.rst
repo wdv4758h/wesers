@@ -10,8 +10,7 @@ Installation
 
 (You need to compile with nightly, now)
 
-If you want to build from source, ``cargo install wesers`` may not work.
-(As it don't look ``Cargo.lock`` currently)
+If you want to build from source, make sure you are using nightly toolchain !
 
 
 Install with
@@ -24,7 +23,7 @@ or
 
 .. code-block:: sh
 
-    cargo install --git https://github.com/wdv4758h/wesers --tag v0.3.1
+    cargo install --git https://github.com/wdv4758h/wesers --tag v0.4.0
 
 
 If you want to download prebuilt binary,
@@ -59,6 +58,8 @@ Usage
             --template <template>    HTML template path
 
 
+run :
+
 .. code-block:: sh
 
     $ wesers
@@ -66,11 +67,15 @@ Usage
     127.0.0.1:54400 GET http://127.0.0.1:8000/ -> 200 OK (0.268528 ms)
 
 
+run with custom address and HTML template :
+
 .. code-block:: sh
 
     $ wesers --ip 127.0.0.1 --port 8080 --template ./custom.mustache
     Simple HTTP Server running on http://127.0.0.1:8080/
 
+
+run in HTTPS :
 
 .. code-block:: sh
 
