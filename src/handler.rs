@@ -76,6 +76,7 @@ impl Wesers {
                 // default template
                 let default = include_str!("default.mustache");
                 mustache::compile_str(default)
+                         .unwrap()
             }
         };
 
@@ -168,7 +169,7 @@ impl Handler for Wesers {
                 .build();
 
             let mut bytes = vec![];
-            self.template.render_data(&mut bytes, &data);
+            self.template.render_data(&mut bytes, &data).unwrap();
             let result = str::from_utf8(&bytes).unwrap();
 
             response = Response::with((status::Ok, result));

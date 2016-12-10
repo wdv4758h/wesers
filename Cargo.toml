@@ -1,6 +1,6 @@
 [package]
 name = "wesers"
-version = "0.4.1"
+version = "0.4.2"
 authors = ["Chiu-Hsiang Hsu <wdv4758h@gmail.com>"]
 license = "AGPL-3.0"
 readme = "README.rst"
@@ -14,17 +14,17 @@ default = []
 https = ["iron/ssl"]
 
 [dependencies]
-clap = { version = "2.10.0", features = ["yaml"] }
-iron = "0.4"
+clap = { version = "2.19.2", features = ["yaml"] }
+iron = "0.4.0"
 mount = "0.2.1"         # iron 0.4
-staticfile = "0.3.0"    # iron 0.4
-logger = "0.1.0"        # iron 0.4
-rustc-serialize = "0.3.19"
-mustache = "0.7.0"
-term = "0.4"
+staticfile = "0.3.1"    # iron 0.4
+logger = "0.2.0"        # iron 0.4
+rustc-serialize = "0.3.22"
+mustache = "0.8.0"
+env_logger = "0.3.5"
 
 [build-dependencies]
-clap = { version = "2.10.0", features = ["yaml"] }
+clap = { version = "2.19.2", features = ["yaml"] }
 
 [profile.release]
 lto = true
