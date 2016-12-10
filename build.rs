@@ -14,7 +14,7 @@ fn main() {
                                 .parent().unwrap()
                                 .parent().unwrap()
                                 .as_os_str();
-    let yml = load_yaml!("src/arguments.yml");    // FIXME, make a function
+    let yml = load_yaml!("src/cli.yml");    // FIXME, make a function
     let mut app = App::from_yaml(yml);
     app.gen_completions("wesers",           // bin name
                         Shell::Bash,        // target shell
