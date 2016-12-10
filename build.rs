@@ -1,13 +1,15 @@
 #[macro_use]
 extern crate clap;
 
+use std::env;
 use std::path::Path;
 
 use clap::{App, Shell};
 
 
 fn main() {
-    let cargo_target_dir = Path::new(env!("OUT_DIR"))
+    let out_dir = env::var("OUT_DIR").unwrap();
+    let cargo_target_dir = Path::new(&out_dir)
                                 .parent().unwrap()
                                 .parent().unwrap()
                                 .parent().unwrap()
