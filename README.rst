@@ -26,7 +26,7 @@ or
 
 .. code-block:: sh
 
-    cargo install --git https://github.com/wdv4758h/wesers --tag v0.4.1
+    cargo install --git https://github.com/wdv4758h/wesers --tag v0.4.2
 
 
 If you want to download prebuilt binary,
@@ -46,7 +46,7 @@ or
 
 .. code-block:: sh
 
-    cargo install --git https://github.com/wdv4758h/wesers --tag v0.4.1 --features https
+    cargo install --git https://github.com/wdv4758h/wesers --tag v0.4.2 --features https
 
 
 
@@ -56,7 +56,7 @@ Usage
 .. code-block:: sh
 
     $ wesers --help
-    wesers 0.4.1
+    wesers 0.4.2
     Chiu-Hsiang Hsu <wdv4758h@gmail.com>
     a simple HTTP/HTTPS server in Rust
 
@@ -82,9 +82,9 @@ run :
 
 .. code-block:: sh
 
-    $ wesers
+    $ RUST_LOG=info wesers
     Simple HTTP Server running on http://127.0.0.1:8000/
-    127.0.0.1:54400 GET http://127.0.0.1:8000/ -> 200 OK (0.268528 ms)
+    INFO:logger: 127.0.0.1:54400 GET http://127.0.0.1:8000/ -> 200 OK (0.268528 ms)
 
 
 run with custom address and HTML template :
@@ -106,14 +106,36 @@ run in HTTPS :
 Binary Size
 ========================================
 
-x86_64 Linux:
+x86_64 Linux (with HTTPS):
 
 +----------+---------+------------+--------------+-----------+
 | Filename | Version | Stripped ? | Size (Bytes) | Size (MB) |
 +----------+---------+------------+--------------+-----------+
-| wesers   | v0.4.1  | No         | 3573904      | 3.5M      |
+| wesers   | v0.4.2  | No         | 4568856      | 4.4M      |
 +----------+---------+------------+--------------+-----------+
-| wesers   | v0.4.1  | Yes        | 2769832      | 2.7M      |
+| wesers   | v0.4.2  | Yes        | 3055784      | 3.0M      |
++----------+---------+------------+--------------+-----------+
+
+
+x86_64 Linux (without HTTPS):
+
++----------+---------+------------+--------------+-----------+
+| Filename | Version | Stripped ? | Size (Bytes) | Size (MB) |
++----------+---------+------------+--------------+-----------+
+| wesers   | v0.4.2  | No         | 4475568      | 4.3M      |
++----------+---------+------------+--------------+-----------+
+| wesers   | v0.4.2  | Yes        | 2989928      | 2.9M      |
++----------+---------+------------+--------------+-----------+
+
+
+x86_64 Linux (with musl, without HTTPS):
+
++----------+---------+------------+--------------+-----------+
+| Filename | Version | Stripped ? | Size (Bytes) | Size (MB) |
++----------+---------+------------+--------------+-----------+
+| wesers   | v0.4.2  | No         | 4553024      | 4.4M      |
++----------+---------+------------+--------------+-----------+
+| wesers   | v0.4.2  | Yes        | 2791552      | 2.7M      |
 +----------+---------+------------+--------------+-----------+
 
 
@@ -160,6 +182,15 @@ Not Implemented Yet (Plan)
 * reduce binary size
 * unicode url support (issue https://github.com/iron/staticfile/issues/76)
 * HTTP2 support
+
+
+v0.4.2 (2016-12-10)
+------------------------------
+
+Features
+++++++++++++++++++++
+
+* update all dependencies
 
 
 v0.4.1 (2016-08-03)
@@ -238,7 +269,7 @@ Developement
 Making Release
 ------------------------------
 
-1. update version in ``src/arguments.yml``
+1. update version in ``src/cli.yml``
 2. update version in ``Cargo.toml``
 3. update version in ``Cargo.lock``
 4. add git tag
