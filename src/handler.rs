@@ -8,6 +8,7 @@ use iron::{Handler, status};
 use iron::headers::ContentType;
 use iron::modifiers::Redirect;
 use iron::Url;
+use url::percent_encoding::percent_decode;
 use staticfile::Static;     // middleware
 use mount::Mount;           // middleware
 use mustache::{self, MapBuilder, VecBuilder};
@@ -99,6 +100,7 @@ impl Wesers {
 impl Handler for Wesers {
     fn handle(&self, req: &mut Request) -> IronResult<Response> {
         let mut path = req.url.path().join("/");
+        path = percent_decode(path.as_bytes()).decode_utf8().unwrap().into_owned();
 
         if path.is_empty() {
             path = ".".to_string();

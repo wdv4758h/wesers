@@ -22,6 +22,7 @@ logger = "0.2.0"        # iron 0.4
 rustc-serialize = "0.3.22"
 mustache = "0.8.0"
 env_logger = "0.3.5"
+url = "1.2.3"
 
 [build-dependencies]
 clap = { version = "2.19.2", features = ["yaml"] }

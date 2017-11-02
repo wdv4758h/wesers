@@ -180,8 +180,13 @@ Not Implemented Yet (Plan)
 * fix everything discover by linter (e.g. clippy)
 * code refactoring to improve performance
 * reduce binary size
-* unicode url support (issue https://github.com/iron/staticfile/issues/76)
 * HTTP2 support
+
+
+v0.4.3 (?)
+------------------------------
+
+* unicode url support
 
 
 v0.4.2 (2016-12-10)

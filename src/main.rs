@@ -6,6 +6,7 @@ extern crate iron;              // web framework
 extern crate logger;            // Iron's middleware
 extern crate staticfile;        // Iron's middleware
 extern crate mount;             // Iron's middleware
+extern crate url;               // precent decode
 extern crate rustc_serialize;   // needed by mustache template
 extern crate mustache;          // mustache template
 extern crate env_logger;        // display logging informantion decided by RUST_LOG
