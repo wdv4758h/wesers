@@ -65,6 +65,7 @@ pub fn wesers_file_listing(dir: &fs::Directory, req: &HttpRequest) -> Result<Htt
                     format!("/{}", related_path.to_str().unwrap()))
         .build();
     let template = {
+        // FIXME: choose custom template
         let template_path: Option<String> = None;
         if let Some(ref template_path) = template_path {
             // custom template
