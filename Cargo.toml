@@ -19,6 +19,8 @@ clap = { version = "2.31.2", features = ["yaml"] }
 mustache = "0.9.0"
 env_logger = "0.5.10"
 openssl = "0.10.7"
+serde = "1.0.54"
+serde_derive = "1.0.54"
 
 [build-dependencies]
 clap = { version = "2.31.2", features = ["yaml"] }
