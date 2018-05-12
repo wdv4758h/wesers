@@ -10,14 +10,15 @@ keywords = ["web", "server"]
 build = "build.rs"
 
 [features]
-default = []
+default = ["https"]
 https = []
 
 [dependencies]
-actix-web = "0.6.4"
+actix-web = { version = "0.6.4", features = ["alpn"] }
 clap = { version = "2.31.2", features = ["yaml"] }
 mustache = "0.9.0"
 env_logger = "0.5.10"
+openssl = "0.10.7"
 
 [build-dependencies]
 clap = { version = "2.31.2", features = ["yaml"] }
