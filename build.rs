@@ -19,4 +19,10 @@ fn main() {
     app.gen_completions("wesers",           // bin name
                         Shell::Bash,        // target shell
                         cargo_target_dir);  // writing path
+    app.gen_completions("wesers",
+                        Shell::Fish,
+                        cargo_target_dir);
+    app.gen_completions("wesers",
+                        Shell::Zsh,
+                        cargo_target_dir);
 }
